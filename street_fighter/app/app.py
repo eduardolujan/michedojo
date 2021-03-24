@@ -1,12 +1,19 @@
 
+# -*- coding: utf-8 -*-
+
 from abc import ABC
 from abc import abstractmethod
 from dataclasses import dataclass
 from typing import List
 
 
+MAX_Y = 1
+MAX_X = 4
+
+
 @dataclass
 class Location:
+    """Location"""
     x: int
     y: int
 
@@ -25,7 +32,13 @@ class Up(Movement):
 
     def move(self, loc: Location):
         """Up move"""
-        loc.y = 0
+
+        if 0 <= loc.y < MAX_Y:
+            loc.y += 1
+
+        if loc.y == MAX_Y:
+            loc.y = 0
+
         print('up')
         return loc
 
@@ -35,7 +48,12 @@ class Down(Movement):
 
     def move(self, loc: Location):
         """Down move"""
-        loc.y = 1
+        if 0 < loc.y <= MAX_Y:
+            loc.y -= 1
+
+        if loc.y == 0:
+            loc.y = MAX_Y
+
         print('down')
         return loc
 
@@ -78,6 +96,8 @@ class FactoryMovement:
 
 
 class Printer:
+    """Printer"""
+
     def __init__(self, fighters: List):
         self.fighters = fighters
 
@@ -104,6 +124,7 @@ class StreetFighter:
         self.printer = Printer(self.fighters)
 
     def play(self):
+        """Play"""
         print("Press the w (up), s (down), a (left), d (right) keys to select or press the e key to exit: ")
 
         key = None
